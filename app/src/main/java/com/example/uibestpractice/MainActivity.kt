@@ -8,36 +8,43 @@ import com.example.uibestpractice.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    private lateinit var binding: ActivityMainBinding
+    //private lateinit var binding: ActivityMainBinding
 
     private val msgList = ArrayList<Msg>()
 
     private var adapter : MsgAdapter ?= null
+    private var bindingInit:ActivityMainBinding ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initMsg()
-        val layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.layoutManager = layoutManager
         adapter = MsgAdapter(msgList)
         binding.recyclerView.adapter = adapter
         binding.send.setOnClickListener(this)
+        println( binding.inputText.toString())
+        bindingInit = binding
     }
 
     override fun onClick(v: View?) {
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+//        val binding = ActivityMainBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+//        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+//        binding.recyclerView.layoutManager = layoutManager
+//
+//        binding.recyclerView.adapter = adapter
         when (v) {
-            binding.send -> {
-                val content = binding.inputText.toString()
+            bindingInit?.send -> {
+                val content = bindingInit?.inputText.toString()
                 if (content.isNotEmpty()) {
                     val msg = Msg(content, Msg.TYPE_SENT)
                     msgList.add(msg)
                     adapter?.notifyItemInserted(msgList.size - 1) //当有新消息时，刷新RecyclerView中的显示
-                    binding.recyclerView.scrollToPosition(msgList.size - 1) //将RecyclerView定位到最后一行
-                    binding.inputText.setText("") //清空输入框中的内容
+                    bindingInit?.recyclerView?.scrollToPosition(msgList.size - 1) //将RecyclerView定位到最后一行
+                    bindingInit?.inputText?.setText("") //清空输入框中的内容
                 }
             }
         }
