@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MsgAdapter(private val msgList: List<Msg>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class LeftViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val leftMsg: TextView = view.findViewById(R.id.leftMsg)
-    }
-
-    inner class RightViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val rightMsg: TextView = view.findViewById(R.id.rightMsg)
-    }
+//    inner class LeftViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+//        val leftMsg: TextView = view.findViewById(R.id.leftMsg)
+//    }
+//
+//    inner class RightViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+//        val rightMsg: TextView = view.findViewById(R.id.rightMsg)
+//    }
 
     override fun getItemViewType(position: Int): Int {
         val msg = msgList[position]
@@ -31,10 +31,12 @@ class MsgAdapter(private val msgList: List<Msg>) : RecyclerView.Adapter<Recycler
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val msg = msgList[position]
+        //当在when语句中传入一个密封类变量作为条件时，Kotlin编译器会自动检查该密封类有哪些子类，并强制要求将每一个子类所对应的条件全部处理。
+        //这样就可以保证，即使没有编写else条件，也不会出现漏写条件分支的情况。
         when (holder) {
             is LeftViewHolder -> holder.leftMsg.text = msg.content
             is RightViewHolder -> holder.rightMsg.text = msg.content
-            else -> throw IllegalArgumentException()
+            //else -> throw IllegalArgumentException()
         }
     }
 
